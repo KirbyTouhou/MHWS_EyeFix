@@ -1,0 +1,13 @@
+# 参照物是卡普空的游戏资产，不要提交进仓库。
+# 插件运行时由用户点「把参照物复制到插件目录」放进来。
+refs/*
+!refs/README.txt
+
+# 打包输出（作为 Release 附件，不进仓库）
+dist/
+
+# Blender / Python
+__pycache__/
+*.pyc
+*.blend
+*.blend1

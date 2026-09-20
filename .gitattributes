@@ -1,0 +1,8 @@
+# 统一换行符，避免 Windows/Linux 之间来回改动
+* text=auto eol=lf
+
+# 二进制
+*.fbx binary
+*.fbxskel.7 binary
+*.blend binary
+*.zip binary
