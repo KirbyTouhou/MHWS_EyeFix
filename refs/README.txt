@@ -9,7 +9,7 @@
 ----------
 如果这台机器装了 Modder_Batch_Tool 或 Modding-Toolkit：
 
-    打开 Blender -> N 面板 -> MHWS -> 参照物 -> 「把参照物复制到插件目录」
+    打开 Blender -> N 面板 -> MHWS Eyefix -> 参照物 -> 「把参照物复制到插件目录」
 
 插件会自动找到并复制过来。之后即使换一台没装工具包的电脑，
 只要带着整个 MHWS_EyeFix 文件夹，插件依然能用。

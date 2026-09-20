@@ -5,7 +5,7 @@
 MHWS Eye Fix —— 怪物猎人荒野二次元 mod 的眼球修复。
 
 修三个问题：转向反向、眼角乱动、转动幅度过小或看不见。
-用法：打开 mod 的 .blend -> N 面板 -> MHWS -> 先「诊断」再「修复」。
+用法：打开 mod 的 .blend -> N 面板 -> MHWS Eyefix -> 先「诊断」再「修复」。
 原理与参数说明见 README。
 """
 
@@ -14,7 +14,7 @@ bl_info = {
     "author": "KirbyTouhou",
     "version": (1, 0, 0),
     "blender": (4, 3, 0),
-    "location": "View3D > Sidebar > MHWS",
+    "location": "View3D > Sidebar > MHWS Eyefix",
     "description": "修正怪物猎人荒野二次元 mod 的眼球转向反向 / 眼角乱动 / 转动幅度过小",
     "category": "Object",
 }
@@ -664,7 +664,7 @@ class MHWS_PT_EyeFix(bpy.types.Panel):
     bl_idname = "MHWS_PT_eye_fix"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
-    bl_category = "MHWS"
+    bl_category = "MHWS Eyefix"
 
     def draw(self, context):
         layout = self.layout
