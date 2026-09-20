@@ -12,7 +12,7 @@
 
 ## 安装
 
-下载 `MHWS_EyeFix.zip`，在 Blender 里 `编辑 > 首选项 > 插件 > 安装`，选中它（**不要解压**），然后勾选启用。
+下载 `MHWS_EyeFix.zip`，在 Blender 里 `编辑 > 首选项 > 插件 > 安装`，选中它，然后勾选启用。
 
 要求 Blender 4.3+。
 
@@ -49,7 +49,7 @@
 | `MHWilds_Female.fbx` | 原版猎人骨架，含完整面部骨（573 根） |
 | `ch03_000_9000.fbxskel.7` | 原版身体骨架（224 根） |
 
-**怎么拿到：** 装了 [Modder_Batch_Tool](https://github.com/Dimcirui/Modder-Batch-Tool) 或 [Modding-Toolkit](https://github.com/Dimcirui/Modding-Toolkit) 的话，插件会自动从里面找；也可以点面板上的「把参照物复制到插件目录」，把它们存进 `refs/`，之后就不再依赖工具包。
+**怎么拿到：** 强烈建议安装 [Modder_Batch_Tool](https://github.com/Dimcirui/Modder-Batch-Tool) 以及 [Modding-Toolkit](https://github.com/Dimcirui/Modding-Toolkit) 配合使用，插件会自动从里面找；也可以点面板上的「把参照物复制到插件目录」，把它们存进 `refs/`，之后就不再依赖工具包。
 
 没有这两个文件插件不会崩，只是会跳过「修正面部骨」，诊断里会提示。
 
@@ -59,7 +59,7 @@
 
 ## 已知边界
 
-- 只处理**面捕路径**上的眼球。识别眼球网格时认这几根骨：`L_EyeJ_LOD02` / `R_EyeJ_LOD02`（教程指明的眼球骨）、`L_Eye_Master` / `R_Eye_Master`（有些作者直接绑中枢骨）、`L_Eye` / `R_Eye`（MMD 带过来的身体眼骨）。修复时统一改绑到 `L_EyeJ_LOD02` / `R_EyeJ_LOD02`
+- 只处理**面捕路径**上的眼球。识别眼球网格时认这几根骨：`L_EyeJ_LOD02` / `R_EyeJ_LOD02`（指明的眼球骨）、`L_Eye_Master` / `R_Eye_Master`（有些作者直接绑中枢骨）、`L_Eye` / `R_Eye`（MMD 带过来的身体眼骨）。修复时统一改绑到 `L_EyeJ_LOD02` / `R_EyeJ_LOD02`
 - 眼白、眼皮、睫毛这些绑 `Head` + 眼皮骨的网格会被正确排除，不会误判成眼球
 - 只针对《怪物猎人荒野》的面捕骨架，其他 RE Engine 游戏不适用
 
