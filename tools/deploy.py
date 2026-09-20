@@ -24,8 +24,12 @@ import shutil
 
 SRC = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PKG = os.path.basename(SRC)
-SKIP_DIRS = {"__pycache__"}
-SKIP_EXT = {".pyc"}
+#: 不要同步进 Blender 插件目录的东西。
+#: .git 尤其重要 —— 它是仓库元数据，插件运行不需要，躺在插件目录里既占地方
+#: 又容易被别的打包脚本顺手收进去。
+SKIP_DIRS = {"__pycache__", ".git", ".github", "dist", ".idea", ".vscode"}
+SKIP_EXT = {".pyc", ".pyo"}
+SKIP_FILES = {".gitignore", ".gitattributes"}
 
 
 def parse_args(argv):
@@ -62,10 +66,32 @@ def running_addons_dir():
         return None
 
 
+def rmtree_force(path):
+    """删目录，遇到只读文件先把只读位去掉再删。
+
+    Windows 上 git 的对象文件是只读的，直接 shutil.rmtree 会 PermissionError。
+    （旧版本的 deploy 会把 .git 一起同步过去，然后下次部署就删不掉了 —— 踩过一次。）
+    """
+    import stat
+
+    def on_error(func, p, exc_info):
+        try:
+            os.chmod(p, stat.S_IWRITE)
+            func(p)
+        except Exception:
+            pass
+
+    # Python 3.12 起 onerror 改名成 onexc
+    try:
+        shutil.rmtree(path, onexc=lambda f, p, e: on_error(f, p, e))
+    except TypeError:
+        shutil.rmtree(path, onerror=on_error)
+
+
 def sync(dst):
     target = os.path.join(dst, PKG)
     if os.path.isdir(target):
-        shutil.rmtree(target)
+        rmtree_force(target)
     os.makedirs(target)
     n_files = n_bytes = 0
     for root, dirs, files in os.walk(SRC):
@@ -75,7 +101,7 @@ def sync(dst):
         if not os.path.isdir(out_dir):
             os.makedirs(out_dir)
         for f in files:
-            if os.path.splitext(f)[1] in SKIP_EXT:
+            if os.path.splitext(f)[1] in SKIP_EXT or f in SKIP_FILES:
                 continue
             src_f = os.path.join(root, f)
             shutil.copy2(src_f, os.path.join(out_dir, f))
