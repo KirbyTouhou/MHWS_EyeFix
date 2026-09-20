@@ -81,7 +81,7 @@ blender --factory-startup -b --python tools/cli_fix.py -- input.blend [output.bl
 看不见（前后进出） = 权重 × |d.x| × θ
 ```
 
-**只有 `d.y` 那一份看得见**，所以枢轴要瞄准虹膜正后方 —— 同样的杠杆长度能多出 1.5~2 倍效果。完整推导和踩坑记录见 [`docs/eye-reversal-notes.md`](docs/eye-reversal-notes.md)。
+**只有 `d.y` 那一份看得见**，所以枢轴要瞄准虹膜正后方 —— 同样的杠杆长度能多出 1.5~2 倍效果。
 
 ## 授权
 
