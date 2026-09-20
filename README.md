@@ -49,7 +49,7 @@
 | `MHWilds_Female.fbx` | 原版猎人骨架，含完整面部骨（573 根） |
 | `ch03_000_9000.fbxskel.7` | 原版身体骨架（224 根） |
 
-**怎么拿到：** 强烈建议安装 [Modder_Batch_Tool](https://github.com/Dimcirui/Modder-Batch-Tool) 以及 [Modding-Toolkit](https://github.com/Dimcirui/Modding-Toolkit) 配合使用，插件会自动从里面找；也可以点面板上的「把参照物复制到插件目录」，把它们存进 `refs/`，之后就不再依赖工具包。
+**怎么拿到：** 强烈建议安装 [Modder_Batch_Tool](https://github.com/Dimcirui/Modder_Batch_Tool) 以及 [Modding-Toolkit](https://github.com/Dimcirui/Modding-Toolkit) 配合使用，插件会自动从里面找；也可以点面板上的「把参照物复制到插件目录」，把它们存进 `refs/`，之后就不再依赖工具包。
 
 没有这两个文件插件不会崩，只是会跳过「修正面部骨」，诊断里会提示。
 
@@ -85,6 +85,6 @@ blender --factory-startup -b --python tools/cli_fix.py -- input.blend [output.bl
 
 ## 授权
 
-**GPL-3.0-or-later**（见 [`LICENSE`](LICENSE)）。插件在读取原版身体骨架时会 import [Modder_Batch_Tool](https://github.com/Dimcirui/Modder-Batch-Tool) 的 `fbxskel` 解析器，而它是 GPL-3.0-or-later，GPL 要求衍生作品同样以 GPL 发布。
+**GPL-3.0-or-later**（见 [`LICENSE`](LICENSE)）。插件在读取原版身体骨架时会 import [Modder_Batch_Tool](https://github.com/Dimcirui/Modder_Batch_Tool) 的 `fbxskel` 解析器，而它是 GPL-3.0-or-later，GPL 要求衍生作品同样以 GPL 发布。
 
 `refs/` 下的游戏文件不属于本插件，版权归卡普空所有，不在 GPL 范围内。
