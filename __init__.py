@@ -12,7 +12,7 @@ MHWS Eye Fix —— 怪物猎人荒野二次元 mod 的眼球修复。
 bl_info = {
     "name": "MHWS Eye Fix",
     "author": "KirbyTouhou",
-    "version": (1, 0, 0),
+    "version": (1, 0, 2),
     "blender": (4, 3, 0),
     "location": "View3D > Sidebar > MHWS Eyefix",
     "description": "修正怪物猎人荒野二次元 mod 的眼球转向反向 / 眼角乱动 / 转动幅度过小",
@@ -171,9 +171,27 @@ def find_armature(obj=None):
     cands = [o for o in bpy.context.scene.objects if o.type == 'ARMATURE']
     if not cands:
         return None
-    # 优先名字像荒野骨架、且骨头最多的那个
-    cands.sort(key=lambda o: (("MHWilds" in o.name) + ("ch03" in o.name), len(o.data.bones)),
-               reverse=True)
+    if len(cands) == 1:
+        return cands[0]
+
+    # ★ 场景里有多个骨架时，**优先「真的有网格绑在它下面」的那个**。
+    #
+    #   踩过：原来是按「名字里有 MHWilds / ch03 就加权重、其次骨头多的优先」排。
+    #   而导入参照骨架（MHWilds_Female.fbx）会留下一个名字就叫
+    #   `MHWilds_Female Armature` 的空骨架 —— 它名字命中、骨头也不少（527 根），
+    #   于是**永远压过用户自己的模型**。表现是：面板显示的骨架不对，诊断拿
+    #   参照骨架跟它自己比，永远报「0 根不一致」，看着就像「读的还是上次那份数据」。
+    #
+    #   参照骨架是光秃秃的（没有网格绑上去）；模型骨架下面挂着蒙皮网格。
+    #   这个判据比名字可靠。
+    used = set()
+    for m in bpy.context.scene.objects:
+        if m.type != 'MESH':
+            continue
+        for md in m.modifiers:
+            if md.type == 'ARMATURE' and md.object is not None:
+                used.add(md.object.name)
+    cands.sort(key=lambda o: (o.name in used, len(o.data.bones)), reverse=True)
     return cands[0]
 
 
@@ -674,9 +692,19 @@ class MHWS_PT_EyeFix(bpy.types.Panel):
         if arm is None:
             layout.label(text="场景里没有骨架", icon='ERROR')
             return
+        n_arms = sum(1 for o in context.scene.objects if o.type == 'ARMATURE')
         box = layout.box()
         box.label(text="骨架：%s" % arm.name, icon='ARMATURE_DATA')
         box.label(text="骨骼数：%d" % len(arm.data.bones))
+        # 显示当前文件名 —— 排查「换文件后数据没跟着变」时，这一行是分水岭：
+        # 它显示的不是你刚打开的文件，就说明读的是别处的东西。
+        box.label(text="文件：%s"
+                      % (os.path.basename(bpy.data.filepath) or "(未保存)"))
+        if n_arms > 1:
+            # 说清楚「用的是哪一个、怎么换」—— 场景里有多个骨架时，
+            # 选错的那个会让诊断看着像「读的还是上次的数据」。
+            box.label(text="场景里有 %d 个骨架，正在用上面这个" % n_arms, icon='INFO')
+            box.label(text="选中想用的那个骨架，这里就会切过去", icon='INFO')
 
         col = layout.column(align=True)
         col.label(text="参数")
